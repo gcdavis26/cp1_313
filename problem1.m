@@ -62,3 +62,19 @@ subplot(1,2,2)
 image = reshape(U2, [37, 50])'
 image = mat2gray(image)
 imshow(image)
+
+%bonus
+
+EigVec3 = Evectors(:,1:3)
+x = B(:,1)
+xbar = (EigVec3 * EigVec3')*x
+xreshape = reshape(x(:,1), [37, 50])';
+xbarreshape = reshape(xbar(:,1), [37, 50])'; 
+figure(6)
+xreshape = mat2gray(xreshape)
+xbarreshape = mat2gray(xbarreshape)
+
+subplot(1,2,1)
+imshow(xbarreshape)
+subplot(1,2,2)
+imshow(xreshape)
