@@ -13,9 +13,11 @@ for iter = (1:10)
 end
 
 A = B * B';
-EV = eig(A);
-EV = EV(563:1850,1);
-EV = flip(EV);
+[Evectors, Evalues] =  eig(A);
+Evalues = diag(Evalues)
+Evalues = Evalues(563:1850,1);
+Evalues = flip(Evalues);
 f2 = figure
-loglog(EV)
+loglog(Evalues)
+
 
