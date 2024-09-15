@@ -47,4 +47,18 @@ for iter = (1:10)
     imshow(image)
 end
 
+EvectorsL = Evectors(:,1)
+EvaluesL = Evalues(1,1)
 
+figure(5)
+ U1 = A * EvectorsL
+ U2 = EvaluesL .* EvectorsL 
+image = reshape(U1, [37, 50])'
+image = mat2gray(image)
+subplot (1,2,1)
+imshow(image)
+
+subplot(1,2,2)
+image = reshape(U2, [37, 50])'
+image = mat2gray(image)
+imshow(image)
