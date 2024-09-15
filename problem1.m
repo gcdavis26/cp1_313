@@ -15,6 +15,7 @@ end
 A = B * B';
 EV = eig(A);
 EV = EV(563:1850,1)
+EV = flip(EV)
 f2 = figure
 loglog(EV)
 
