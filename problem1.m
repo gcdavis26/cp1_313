@@ -16,8 +16,9 @@ A = B * B';
 [Evectors, Evalues] =  eig(A);
 Evalues = diag(Evalues)
 Evalues = Evalues(563:1850,1);
+Evectors = Evectors(563:1850,1);
 Evalues = flip(Evalues);
-f2 = figure
+Evectors = flip(Evectors);
+figure(2)
 loglog(Evalues)
-
 
