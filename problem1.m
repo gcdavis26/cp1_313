@@ -9,7 +9,8 @@ B = mat2gray(B); %Applying grayscale
 
 
 for iter = (1:10) %Itering 10 times
-    image = reshape(B(:,iter), [37, 50])'; %Grabbing each column, reshaping it into a 37 by 50 matrix
+    image = reshape(B(:,iter), [37, 50])'; %Grabbing each column, reshaping 
+    % it into a 37 by 50 matrix
     subplot(1,10, iter) %Plotting each graph on the same figure
     imshow(image) %Showing the image
 
@@ -78,17 +79,19 @@ image = reshape(U1, [37, 50])' %reshaping U1 to an image
 image = mat2gray(image) %Grayscale
 subplot (1,2,1) %Plotting the image
 imshow(image) %Showing the image
+title("A * Eigenvector") %Adding title
 
 image = reshape(U2, [37, 50])' %Reshaped to an image
 image = mat2gray(image) % Grayscale
 subplot(1,2,2) %Plotting U2
 imshow(image)%Showing U2
+title("Eigenvector * Eigenvalue") %Adding title
 
 %%%%%%%%%%%%%%
 % Part 1.5
 
-EigVec3 = Evectors(:,1:3) %The first 3 eigenvectors
-x = B(:,1) %First image
+EigVec3 = Evectors(:,1:50) %The first 3 eigenvectors
+x = B(:,4) %First image
 UUT = (EigVec3 * EigVec3'); % U by U transpose
 xbar = UUT *x; %Finding xbar
 xreshape = reshape(x(:,1), [37, 50])'; %Reshaping x into an image
@@ -98,6 +101,8 @@ xreshape = mat2gray(xreshape) %Grayscale
 xbarreshape = mat2gray(xbarreshape) %Grayscale
 
 subplot(1,2,1) %Plotting xbar
-imshow(xbarreshape) %Showing xbar 
+imshow(xbarreshape) %Showing xbar
+title("XBar Image") %Adding plot title
 subplot(1,2,2) %Plotting x
 imshow(xreshape) %Showing x
+title("X Image") %Adding plot title
