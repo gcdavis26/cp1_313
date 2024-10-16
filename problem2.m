@@ -26,20 +26,36 @@ for t = 0:h:8-h
 end
 
 times = (0:h:8); %Time on x axis
-plot(times, x(:,1)')
-hold on
+plot(times, x(:,1)') %Plotting RK2
+hold on %Allowing more plots
+%End of RK2
+%%%%%%%%%%%%%%%%%
 
-omega = 2;
-sigma = .05;
+%Analytic
+omega = 2; %Givens 
+sigma = .05; 
 omegad = omega * sqrt(1-sigma^2);
 T0 = 1;
 
-
+%This is just my analytic solution, subbing stuff in 
 x_exact = T0/omega^2 - exp(-omega*sigma.*times) .* (cos(omegad .* times) ...
     / omega^2 +sigma/(omega .* omegad) * sin(omegad .* times));
-plot(times, x_exact)
+plot(times, x_exact) %Plotting 
+%End of Analytic
+%%%%%%%%%%%%%%%%
 
-options = odeset(RelTol=1e-3, AbsTol=1e-6);
-[t, x_ode45] = ode45(f, [start_time end_time], x(:,1),options)
+%ODE45
+options = odeset(RelTol=1e-3, AbsTol=1e-6); %Setting tolerances
 
-legend("RK2", "Analytical Solution")
+f_vector = @(t,y) [y(2,:);1 - 4*y(1,:) - .2 * y(2,:)]; 
+% Original f function was using row vectors, which isn't compatible 
+
+[t, x_ode45] = ode45(f_vector, [start_time end_time], x(1,:),options)
+plot(t,x_ode45(:,1)) %Plotting
+
+legend("RK2", "Analytical Solution", "ODE45") %Legend because pretty 
+
+%End of 2.2
+%%%%%%%%%%%%%%%%%
+
+%Start of 2.3 
