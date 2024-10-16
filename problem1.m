@@ -9,8 +9,9 @@ B = mat2gray(B); %Applying grayscale
 
 
 for iter = (1:10) %Itering 10 times
-    image = reshape(B(:,iter), [37, 50])'; %Grabbing each column, reshaping 
-    % it into a 37 by 50 matrix
+    figure(1) %Using figure
+    image = reshape(B(:,iter), [37, 50])'; %Grabbing each column, 
+    % reshaping it into a 37 by 50 matrix
     subplot(1,10, iter) %Plotting each graph on the same figure
     imshow(image) %Showing the image
 
@@ -43,7 +44,8 @@ loglog(Evalues) %Plotting on a log log scale
 %Smallest eigenvalues 
 
 figure(3) %New figure
-smallest = Evectors(:, [1288-9:1288]); %The smallest vectors are at the end
+smallest = Evectors(:, [1288-9:1288]); %The smallest vectors are at the 
+% end
 
 for iter = (1:10) %Itering through all ten eigenvectors
     image = reshape(smallest(:,iter), [37,50])' %Reshaping the columns 
@@ -90,8 +92,8 @@ title("Eigenvector * Eigenvalue") %Adding title
 %%%%%%%%%%%%%%
 % Part 1.5
 
-EigVec3 = Evectors(:,1:50) %The first 3 eigenvectors
-x = B(:,4) %First image
+EigVec3 = Evectors(:,1:3) %The first 3 eigenvectors
+x = B(:,1) %First image
 UUT = (EigVec3 * EigVec3'); % U by U transpose
 xbar = UUT *x; %Finding xbar
 xreshape = reshape(x(:,1), [37, 50])'; %Reshaping x into an image
