@@ -50,12 +50,59 @@ options = odeset(RelTol=1e-3, AbsTol=1e-6); %Setting tolerances
 f_vector = @(t,y) [y(2,:);1 - 4*y(1,:) - .2 * y(2,:)]; 
 % Original f function was using row vectors, which isn't compatible 
 
-[t, x_ode45] = ode45(f_vector, [start_time end_time], x(1,:),options)
+[t, x_ode45] = ode45(f_vector, [start_time end_time], x(1,:),options);
 plot(t,x_ode45(:,1)) %Plotting
 
 legend("RK2", "Analytical Solution", "ODE45") %Legend because pretty 
-
+title("Comparing ODE Methods Part 2.2")
+xlabel("t")
+ylabel("x")
+hold off
 %End of 2.2
 %%%%%%%%%%%%%%%%%
 
 %Start of 2.3 
+clc
+clear 
+figure(2)
+
+%This code is just copied from the above part
+
+omega = 2; 
+sigma = .05; 
+omegad = omega * sqrt(1-sigma^2);
+T0 = 1;
+
+f = @(t,x_rk2) [x_rk2(:,2),1 - 4* x_rk2(:,1) - .2 * x_rk2(:,2)];
+error = zeros([1,4]);
+iter = 0; %Used to access error matrix within the loop
+
+%{
+Essentially all that's happening here is that we're running the code from 
+2.2, except throwing it all into a for loop and change the step size every
+time. At the end of every iteration of the outer loop, we find the norm
+of the error, which is the matrix subtraction of x_rk2 from the analytical
+values. 
+%}
+
+
+for h = [.1 .05 .025 .0125] %Looping through different step sizes
+    iter = iter + 1; %Used to count iterations to index into error matrix
+    x_rk2 = [0,0];
+    times = 0:h:8;
+    x_exact = T0/omega^2 - exp(-omega*sigma.*times) .* (cos(omegad .* times) ...
+    / omega^2 +sigma/(omega .* omegad) * sin(omegad .* times));
+    for t = 0:h:8-h 
+        element = round(t/h + 1); %Index to use for current element
+        next = element + 1; %Index to use for next element (prediction)
+        k1 = f(t, x_rk2(element,:)); %k1 from RK2
+        k2 = f(t + h/2, x_rk2(element,:) + h/2 * k1); %k2 from RK2
+        x_rk2(next, :) = x_rk2(element, :) + h * k2; %Next values
+    end
+    error(iter) = norm(x_exact - x_rk2(:,1)'); %Finding the norm of the differences
+end
+loglog([.1 .05 .025 .0125], error)
+xlabel("Step size")
+ylabel("Error")
+legend("Error of RK2")
+title("Error of RK2 wrt Analytical, 2.3")
