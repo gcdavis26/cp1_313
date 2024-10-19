@@ -44,13 +44,13 @@ loglog(Evalues) %Plotting on a log log scale
 %Smallest eigenvalues 
 
 figure(3) %New figure
-smallest = Evectors(:, [1288-9:1288]); %The smallest vectors are at the 
+smallest = Evectors(:, 1288-9:1288); %The smallest vectors are at the 
 % end
 
 for iter = (1:10) %Itering through all ten eigenvectors
-    image = reshape(smallest(:,iter), [37,50])' %Reshaping the columns 
+    image = reshape(smallest(:,iter), [37,50])'; %Reshaping the columns 
     %into picture format
-    image = mat2gray(image) %Grayscaling to make it visible
+    image = mat2gray(image); %Grayscaling to make it visible
     subplot(1,10,iter) %Plotting them all
     imshow(image) %Showing the image
 
@@ -59,32 +59,33 @@ end
 %Largest eigenvalues 
 
 figure(4) %New figure
-largest = Evectors(:,1:10) %The largest vectors are at the beginning
+largest = Evectors(:,1:10); %The largest vectors are at the beginning
 for iter = (1:10) %Itering through all ten eigenvectors
-    image = reshape(largest(:,iter), [37,50])' %Reshaping the columns 
+    image = reshape(largest(:,iter), [37,50])'; %Reshaping the columns 
     %into picture format
-    image = mat2gray(image) %Grayscaling to make it visible
+    image = mat2gray(image); %Grayscaling to make it visible
     subplot(1,10,iter) %Plotting them all
     imshow(image) %Showing the image
 end
 
+
 %%%%%%%%%%%%%%
 % Part 1.4
-EvectorsL = Evectors(:,1) %Largest eigenvector
-EvaluesL = Evalues(1,1) %Largest eigenvalue
+EvectorsL = Evectors(:,1); %Largest eigenvector
+EvaluesL = Evalues(1,1); %Largest eigenvalue
 
 figure(5) %New figure 
 % A * x = x * lambda
- U1 = A * EvectorsL %A * x part of the equation 
- U2 = EvaluesL * EvectorsL  % x * lambda part of the equation 
-image = reshape(U1, [37, 50])' %reshaping U1 to an image
-image = mat2gray(image) %Grayscale
+ U1 = A * EvectorsL; %A * x part of the equation 
+ U2 = EvaluesL * EvectorsL;  % x * lambda part of the equation 
+image = reshape(U1, [37, 50])'; %reshaping U1 to an image
+image = mat2gray(image); %Grayscale
 subplot (1,2,1) %Plotting the image
 imshow(image) %Showing the image
 title("A * Eigenvector") %Adding title
 
-image = reshape(U2, [37, 50])' %Reshaped to an image
-image = mat2gray(image) % Grayscale
+image = reshape(U2, [37, 50])'; %Reshaped to an image
+image = mat2gray(image); % Grayscale
 subplot(1,2,2) %Plotting U2
 imshow(image)%Showing U2
 title("Eigenvector * Eigenvalue") %Adding title
@@ -92,15 +93,15 @@ title("Eigenvector * Eigenvalue") %Adding title
 %%%%%%%%%%%%%%
 % Part 1.5
 
-EigVec3 = Evectors(:,1:3) %The first 3 eigenvectors
-x = B(:,1) %First image
+EigVec3 = Evectors(:,1:3); %The first 3 eigenvectors
+x = B(:,1); %First image
 UUT = (EigVec3 * EigVec3'); % U by U transpose
 xbar = UUT *x; %Finding xbar
 xreshape = reshape(x(:,1), [37, 50])'; %Reshaping x into an image
 xbarreshape = reshape(xbar(:,1), [37, 50])'; %Reshaping xbar into an image
 figure(6) %New figure
-xreshape = mat2gray(xreshape) %Grayscale
-xbarreshape = mat2gray(xbarreshape) %Grayscale
+xreshape = mat2gray(xreshape); %Grayscale
+xbarreshape = mat2gray(xbarreshape); %Grayscale
 
 subplot(1,2,1) %Plotting xbar
 imshow(xbarreshape) %Showing xbar
