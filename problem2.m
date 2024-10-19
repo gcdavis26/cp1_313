@@ -106,3 +106,91 @@ xlabel("Step size")
 ylabel("Error")
 legend("Error of RK2")
 title("Error of RK2 wrt Analytical, 2.3")
+
+%End of 2.3
+%%%%%%%%%%%%%%%%%
+%Start of 2.4
+%{this is reused code from 2.2, but now utilized for 2.4
+%}
+
+clc 
+clear
+figure(3)
+
+%redoing rk2 for the 2.2 ODE since we cleared variables
+x = [0,0]; %Initial values. x(:,1) are x, x(:,2) are x'
+f = @(t,x) [x(:,2),1 - 4* x(:,1) - .2 * x(:,2)]; %Explained below
+%{
+This is the derivative function of x vector, aka x' and x''.
+x' is just x(:,2), as mentioned above. By rearranging the differential
+equation, we can solve for x'' in terms of x and x', aka x(:,1) and 
+x(:,2). All this does is break down a 2nd order ODE into 2 first order 
+ODEs.
+%}
+h = .1; %Step size
+%In the for loop below, we will be predicting future terms, which is why
+%the bounds are from 0 to 8-h: Predicting 2nd term, to predicting the last
+%term
+for t = 0:h:8-h 
+    element = round(t/h + 1); %Index to use for current element
+    next = element + 1; %Index to use for next element (prediction)
+    k1 = f(t, x(element,:)); %k1 from RK2
+    k2 = f(t + h/2, x(element,:) + h/2 * k1); %k2 from RK2
+    x(next, :) = x(element, :) + h * k2; %Next values
+end
+
+%End of RK2
+
+%rk2 for bonus
+k = 5*10^-1; %setting k value
+x2 = [0,0]; %Initial values. x(:,1) are x, x(:,2) are x'
+f = @(t,x) [x(:,2),1 - 4* x(:,1) - .2 *(1-k*(x(:,1))^2)* x(:,2)]; %Explained below
+%{
+This is the derivative function of x vector, aka x' and x''.
+x' is just x(:,2), as mentioned above. By rearranging the differential
+equation, we can solve for x'' in terms of x and x', aka x(:,1) and 
+x(:,2). All this does is break down a 2nd order ODE into 2 first order 
+ODEs.
+%}
+start_time = 0; %t = 0 to start
+end_time = 8; %Last evaluated at t = 8
+h = .1; %Step size
+%In the for loop below, we will be predicting future terms, which is why
+%the bounds are from 0 to 8-h: Predicting 2nd term, to predicting the last
+%term
+for t = 0:h:8-h 
+    element = round(t/h + 1); %Index to use for current element
+    next = element + 1; %Index to use for next element (prediction)
+    k1 = f(t, x2(element,:)); %k1 from RK2
+    k2 = f(t + h/2, x2(element,:) + h/2 * k1); %k2 from RK2
+    x2(next, :) = x2(element, :) + h * k2; %Next values
+end
+
+times = (0:h:8); %Time on x axis
+%End of RK2
+%%%%%%%%%%%%%%%%%
+
+
+
+%ODE45
+options = odeset(RelTol=1e-3, AbsTol=1e-6); %Setting tolerances
+
+f_vector = @(t,y) [y(2,:);1 - 4*y(1,:) - .2 * y(2,:)]; 
+% Original f function was using row vectors, which isn't compatible 
+
+[t, x2_ode45] = ode45(f_vector, [start_time end_time], x2(1,:),options);
+
+plot(times, x2(:,1)',t,x2_ode45(:,1)) %plotting rk2 vs ode45
+legend("Bonus ODE RK2", "Bonus ODE ODE45") %Legend because pretty 
+title("Comparing ODE Methods Part 2.4")
+xlabel("t")
+ylabel("x")
+hold off
+
+figure(4)
+plot(times, x2(:,1)',times, x(:,1)') %plotting 2.4 vs 2.4 ODEs
+legend("Bonus ODE RK2", "2.2 ODE RK2") %Legend because pretty 
+title("Comparing 2.4 and 2,2 ODEs")
+xlabel("t")
+ylabel("x")
+hold off
